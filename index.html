@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Recycle Sorter Game</title>
+  <style>
+    body { text-align: center; font-family: Arial; background: #a8e063; }
+    h1 { color: #fff; }
+    .bins { display: flex; justify-content: center; margin-top: 20px; }
+    .bin { width: 120px; height: 120px; margin: 10px; border: 3px dashed #333;
+           display: flex; justify-content: center; align-items: center; font-weight: bold; background:#fff; }
+    .item { width: 60px; height: 60px; margin: 10px; cursor: grab; }
+  </style>
+</head>
+<body>
+
+<h1>♻️ Recycle Sorter Game</h1>
+<p>Drag items into the correct bin!</p>
+
+<div id="items">
+  <img src="https://img.icons8.com/color/96/plastic-bottle.png" class="item" draggable="true" data-type="plastic">
+  <img src="https://img.icons8.com/color/96/apple.png" class="item" draggable="true" data-type="organic">
+  <img src="https://img.icons8.com/color/96/tin-can.png" class="item" draggable="true" data-type="metal">
+</div>
+
+<div class="bins">
+  <div class="bin" data-type="plastic">Plastic Bin</div>
+  <div class="bin" data-type="organic">Organic Bin</div>
+  <div class="bin" data-type="metal">Metal Bin</div>
+</div>
+
+<p id="score">Score: 0</p>
+
+<script>
+  let score = 0;
+  const items = document.querySelectorAll('.item');
+  const bins = document.querySelectorAll('.bin');
+  const scoreEl = document.getElementById('score');
+
+  items.forEach(item => {
+    item.addEventListener("dragstart", e => {
+      e.dataTransfer.setData("type", item.dataset.type);
+    });
+  });
+
+  bins.forEach(bin => {
+    bin.addEventListener("dragover", e => e.preventDefault());
+    bin.addEventListener("drop", e => {
+      const type = e.dataTransfer.getData("type");
+      if (type === bin.dataset.type) {
+        score += 10;
+        scoreEl.textContent = "Score: " + score;
+        alert("✅ Correct! +10 Eco Points");
+      } else {
+        alert("❌ Wrong bin!");
+      }
+    });
+  });
+</script>
+
+</body>
+</html>
